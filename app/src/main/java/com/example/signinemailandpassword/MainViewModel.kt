@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.signinemailandpassword.IsEmailVerifiedResponse
 import com.example.signinemailandpassword.Response
 import com.example.signinemailandpassword.SignInResponse
 import com.example.signinemailandpassword.SignInSignUpRepo
@@ -21,10 +20,24 @@ class MainViewModel@Inject constructor(
 ): ViewModel() {
     var signInResponse by mutableStateOf<SignInResponse>(Response.Success(false))
 
-    private var _isEmailVerified = MutableStateFlow(VerifiedState(
-    repository.currentUser?.isEmailVerified?:false
-    ))
+    private var _isEmailVerified = MutableStateFlow(false)
     val isEmailVerified = _isEmailVerified.asStateFlow()
+
+    private fun setEmailVerified(isVerified: Boolean){
+        _isEmailVerified.value = isVerified
+    }
+
+    init {
+        viewModelScope.launch {
+            val verifiedResponse = repository.isEmailVerified(viewModelScope).collect{
+                isVerified ->
+                setEmailVerified(
+                    isVerified
+                )
+
+            }
+        }
+    }
 
     var authState = repository.getAuthState(viewModelScope)
 

@@ -15,7 +15,7 @@ fun SessionManager(
     if (isUserSignedOut) {
         NavigateToSignInScreen(navController)
     } else {
-        if (isEmailVerified.isVerified){
+        if (isEmailVerified){
             NavigateToProfileScreen(navController)
         }else{
             NavigateToVerifyEmailScreen(navController)

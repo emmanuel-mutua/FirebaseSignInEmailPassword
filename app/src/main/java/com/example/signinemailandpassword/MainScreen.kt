@@ -1,5 +1,6 @@
 package com.example.signinemailandpassword
 
+import VerifyEmailScreen
 import android.annotation.SuppressLint
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -47,7 +48,7 @@ fun MainScreen(
                 )
             }
             composable("Verify_Email"){
-                VerifyEmailScreen(viewModel,state,navController )
+                VerifyEmailScreen(viewModel,navController )
             }
         }
         SessionManager(viewModel, navController)
